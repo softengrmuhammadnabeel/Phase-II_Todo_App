@@ -42,79 +42,82 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.05),_transparent_60%)]">
-
-      <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-black/90 px-8 py-10 shadow-2xl">
-
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-indigo-50 via-white to-pink-50 px-4">
+      <div className="w-full max-w-md rounded-3xl bg-white shadow-xl p-8 md:p-12 flex flex-col items-center">
+        
         {/* Logo */}
-        <div className="text-center mb-8">
-          <h1 className="text-lg font-semibold text-white tracking-wide">
-            Todo App
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl font-bold text-indigo-600 tracking-tight">
+            Todo<span className="text-pink-500">.</span>
           </h1>
         </div>
 
         {/* Title */}
-        <h2 className="text-center text-2xl font-bold text-white mb-8">
-          Sign in
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6 text-center">
+          Sign in to your account
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-
+        <form onSubmit={handleSubmit} className="w-full space-y-5">
           {error && (
-            <div className="rounded-md border border-red-500/30 bg-red-500/10 p-3">
-              <p className="text-sm text-red-400">{error}</p>
+            <div className="rounded-md bg-red-100 border border-red-300 p-3">
+              <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
 
           {/* Email */}
           <div>
-            <label className="block text-xs text-zinc-400 mb-2">
+            <label className="block text-sm font-medium text-gray-600 mb-2">
               Email
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-white placeholder-zinc-500 focus:border-white/40 focus:ring-2 focus:ring-white/10 outline-none"
+              placeholder="you@example.com"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-xs text-zinc-400 mb-2">
+            <label className="block text-sm font-medium text-gray-600 mb-2">
               Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-white placeholder-zinc-500 focus:border-white/40 focus:ring-2 focus:ring-white/10 outline-none"
+              placeholder="••••••••"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
             />
           </div>
 
-          {/* Button */}
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="mt-4 w-full rounded-lg bg-white py-3.5 text-sm font-semibold text-black hover:bg-zinc-200 transition disabled:opacity-50"
+            className="w-full rounded-xl bg-indigo-600 text-white py-3.5 text-sm font-semibold hover:bg-indigo-700 transition shadow-md disabled:opacity-50"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
 
-        {/* Footer */}
-        <div className="mt-8 text-center space-y-3">
-          <Link href="/signup" className="text-sm text-zinc-400 hover:text-white">
+        {/* Footer Links */}
+        <div className="mt-6 text-center space-y-3">
+          <Link
+            href="/signup"
+            className="text-sm text-indigo-600 hover:text-indigo-700 transition"
+          >
             Do not have an account? Sign up
           </Link>
 
-          <div>
-            <Link href="/" className="text-xs text-zinc-500 hover:text-white">
-              ← Back to home
-            </Link>
-          </div>
+          <Link
+            href="/"
+            className="text-xs text-gray-500 hover:text-gray-700 transition"
+          >
+            ← Back to home
+          </Link>
         </div>
-
       </div>
     </div>
   );

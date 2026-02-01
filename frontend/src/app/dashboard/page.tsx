@@ -8,72 +8,87 @@ import { useAuth } from '../../hooks/useAuth';
 
 export default function DashboardPage() {
   const router = useRouter();
-
-  // ✅ Hook called ONCE at top level
   const { user, isAuthenticated, isLoading, logout } = useAuth();
 
   // Redirect if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/login');
-      // 🔥 clear auth storage explicitly
       localStorage.removeItem('jwt_token');
       localStorage.removeItem('auth_user');
-
       router.replace('/login');
     }
   }, [isAuthenticated, isLoading, router]);
 
+  /* ---------------- Loading State ---------------- */
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black flex flex-col">
-        <nav className="flex items-center justify-between p-6 border-b border-white/10">
-          <div className="text-xl font-bold text-white">Todo App</div>
-          <div className="flex items-center space-x-4">
-            <div className="text-[#a1a1aa]">Loading...</div>
-            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white/30"></div>
+      <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-pink-50 flex flex-col">
+        <nav className="flex items-center justify-between px-8 py-6 bg-white/70 backdrop-blur border-b border-gray-200">
+          <div className="text-xl font-bold text-indigo-600">
+            Todo<span className="text-pink-500">.</span>
+          </div>
+
+          <div className="flex items-center space-x-3 text-gray-500">
+            <span>Loading</span>
+            <div className="animate-spin rounded-full h-5 w-5 border-2 border-indigo-500 border-t-transparent" />
           </div>
         </nav>
 
-        <div className="flex justify-center items-center flex-grow">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white/30"></div>
+        <div className="flex-grow flex items-center justify-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent" />
         </div>
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    return null;
-  }
+  if (!isAuthenticated) return null;
 
+  /* ---------------- Dashboard ---------------- */
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-black flex flex-col">
-        <nav className="flex items-center justify-between p-6 border-b border-white/10">
-          <div className="text-xl font-bold text-white">Todo App</div>
+      <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-pink-50 flex flex-col">
+        
+        {/* Navbar */}
+        <nav className="flex items-center justify-between px-8 py-6 bg-white/80 backdrop-blur border-b border-gray-200">
+          <div className="text-xl font-bold text-indigo-600 tracking-tight">
+            Todo<span className="text-pink-500">.</span>
+          </div>
 
-          <div className="flex items-center space-x-4">
-            <span className="text-[#a1a1aa]">Welcome, {user?.username}</span>
+          <div className="flex items-center space-x-6">
+            <span className="text-sm text-gray-600">
+              Welcome, <span className="font-semibold">{user?.username}</span>
+            </span>
 
-            {/* ✅ Correct logout usage */}
             <button
               onClick={async () => {
                 await logout();
                 router.push('/login');
               }}
-              className="text-[#a1a1aa] hover:text-white border border-white/20 bg-transparent hover:bg-white/10 transition-colors duration-200 px-4 py-2 rounded-md"
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
             >
               Logout
             </button>
           </div>
         </nav>
 
-        <main className="flex-grow p-6">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-white mb-8">
-              Task Dashboard
-            </h1>
-            <TaskList userId={user?.id || ''} />
+        {/* Main */}
+        <main className="flex-grow px-6 py-10">
+          <div className="max-w-5xl mx-auto">
+            
+            {/* Header */}
+            <div className="mb-8">
+              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900">
+                Task Dashboard
+              </h1>
+              <p className="text-gray-500 mt-2">
+                Manage your tasks and stay productive
+              </p>
+            </div>
+
+            {/* Task List Card */}
+            <div className="rounded-2xl bg-white shadow-lg border border-gray-200 p-6">
+              <TaskList userId={user?.id || ''} />
+            </div>
           </div>
         </main>
       </div>

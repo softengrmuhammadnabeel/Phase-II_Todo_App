@@ -1,81 +1,105 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../hooks/useAuth';
 
 export default function HomePage() {
   const { isAuthenticated, isLoading, logout, user } = useAuth();
   const router = useRouter();
-  
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-white"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-indigo-50 via-white to-pink-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-indigo-400" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col font-sans">
-      {/* --- NAVBAR: Separate Look --- */}
-      <nav className="w-full py-6 px-10 flex justify-between items-center fixed top-0 z-50 bg-black/50 backdrop-blur-md">
-        <div className="text-white font-bold tracking-tight">Todo App</div>
-        
-        <div className="flex items-center space-x-8 text-sm font-medium">
-          {isAuthenticated ? (
-            <>
-              <span className="text-zinc-400">Welcome, {user?.email}</span>
-              <button 
-                onClick={() => logout()} 
-                className="hover:text-zinc-300 transition"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="text-zinc-400 hover:text-white transition">Sign In</Link>
-              <Link href="/signup" className="text-zinc-400 hover:text-white transition">Sign Up</Link>
-            </>
-          )}
+    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-pink-50 text-gray-900 font-sans flex flex-col">
+      {/* ================= NAVBAR ================= */}
+      <nav className="fixed top-0 z-50 w-full bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="text-xl font-bold text-indigo-600 tracking-tight">
+            Todo<span className="text-pink-500">.</span>
+          </div>
+
+          <div className="flex items-center gap-6 text-sm">
+            {isAuthenticated ? (
+              <>
+                <span className="hidden md:block text-gray-500">
+                  {user?.email}
+                </span>
+                <button
+                  onClick={logout}
+                  className="text-gray-600 hover:text-gray-900 transition"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-gray-600 hover:text-gray-900 transition"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="rounded-md bg-indigo-600 text-white px-4 py-2 font-medium hover:bg-indigo-700 transition"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </nav>
 
-      {/* --- HERO: Centered Full Page Look --- */}
-      <main className="flex-grow flex flex-col items-center justify-center text-center px-4 pt-20">
-        <div className="max-w-4xl">
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-6 leading-tight">
-            Align Your Tasks <br />
-            <span className="text-zinc-500">Empower Your Productivity</span>
-          </h1>
-          
-          <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            Stay organized and productive with our intuitive task management app. 
-            Create, edit, and track your tasks effortlessly.
-          </p>
+      {/* ================= HERO ================= */}
+      <main className="flex-1 flex items-center justify-center pt-28 px-6">
+        <div className="max-w-7xl w-full flex flex-col-reverse md:flex-row items-center gap-12">
+          {/* Left: Hero Text */}
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-gray-900">
+              Structure Your Projects
+              <br />
+              <span className="text-indigo-600">Clearly & Precisely</span>
+            </h1>
 
-          <div className="flex flex-row items-center justify-center space-x-6">
-            <Link
-              href="/signup"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg text-sm font-medium transition-all shadow-lg"
-            >
-              Get Started Free
-            </Link>
+            <p className="mt-6 text-lg text-gray-600 max-w-lg leading-relaxed">
+              Stay on top of your work with a clean, simple, and powerful task manager.
+              Track your progress and focus on what matters most.
+            </p>
 
-            <Link
-              href="/login"
-              className="bg-transparent border border-indigo-600 text-indigo-400 hover:bg-indigo-900/50 px-8 py-3 rounded-lg text-sm font-medium transition-all"
-            >
-              Sign In
-            </Link>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-8 py-3 text-white font-medium hover:bg-indigo-700 shadow-md transition"
+              >
+                Start for Free
+              </Link>
+
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center rounded-lg border border-indigo-600 px-8 py-3 text-indigo-600 font-medium hover:bg-indigo-200  transition"
+              >
+                Sign In
+              </Link>
+            </div>
           </div>
+
         </div>
       </main>
 
-      {/* Subtle Footer Accent */}
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent mb-10"></div>
+      {/* ================= FOOTER ================= */}
+      <footer className="mt-auto py-6">
+        <div className="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+          © {new Date().getFullYear()} Todo App. Made for productivity.
+        </div>
+      </footer>
     </div>
   );
 }
