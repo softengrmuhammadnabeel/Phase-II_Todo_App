@@ -24,42 +24,52 @@ export default function TaskList({ userId }: TaskListProps) {
     removeTask,
   } = useTasks();
 
+  /* ---------------- Loading ---------------- */
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-10">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white/30"></div>
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent" />
       </div>
     );
   }
 
+  /* ---------------- Error ---------------- */
   if (error) {
     return (
-      <div className="bg-red-900/30 border border-red-800/50 text-red-300 px-4 py-3 rounded">
+      <div className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-600">
         <strong>Error:</strong> {error}
       </div>
     );
   }
 
   return (
-    <div className="bg-black border border-white/10 rounded-md overflow-hidden">
+    <div className="rounded-2xl bg-white border border-gray-200 shadow-sm overflow-hidden">
+      
       {/* Header */}
-      <div className="px-4 py-5 border-b border-white/10 flex justify-between items-center">
-        <h3 className="text-lg font-medium text-white">Your Tasks</h3>
+      <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">
+            Your Tasks
+          </h3>
+          <p className="text-sm text-gray-500">
+            Create, update and track your work
+          </p>
+        </div>
 
         <button
           onClick={() => {
             setShowForm(prev => !prev);
             setEditingTask(null);
           }}
-          className="px-4 py-2 border border-white/20 bg-white/10 hover:bg-white/20 text-white text-sm rounded"
+          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition shadow"
         >
-          {showForm ? 'Cancel' : 'Add Task'}
+          {showForm ? 'Cancel' : '+ Add Task'}
         </button>
       </div>
 
       {/* Form */}
       {(showForm || editingTask) && (
-        <div className="px-4 py-5 border-b border-white/10">
+        <div className="px-6 py-6 border-b border-gray-200 bg-gray-50">
           <TaskForm
             userId={userId}
             initialData={editingTask ?? undefined}
@@ -80,13 +90,15 @@ export default function TaskList({ userId }: TaskListProps) {
         </div>
       )}
 
-      {/* Empty state */}
+      {/* Empty State */}
       {tasks.length === 0 ? (
-        <div className="text-center py-10 text-[#a1a1aa]">
-          No tasks yet. Add one!
+        <div className="py-16 text-center">
+          <p className="text-gray-500 text-sm">
+            No tasks yet. Start by adding your first task ✨
+          </p>
         </div>
       ) : (
-        <ul className="divide-y divide-white/10">
+        <ul className="divide-y divide-gray-200">
           {tasks.map(task => (
             <TaskCard
               key={task.id}

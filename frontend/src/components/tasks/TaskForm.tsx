@@ -18,7 +18,7 @@ export default function TaskForm({
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
 
-  // 🔁 Populate form when editing
+  // Populate form when editing
   useEffect(() => {
     if (initialData) {
       setTitle(initialData.title);
@@ -53,46 +53,57 @@ export default function TaskForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
+      
+      {/* Error */}
       {error && (
-        <div className="rounded-md bg-red-900/30 p-4 border border-red-800/50">
-          <h3 className="text-sm font-medium text-red-300">{error}</h3>
+        <div className="rounded-lg border border-red-300 bg-red-50 px-4 py-3">
+          <p className="text-sm text-red-600 font-medium">{error}</p>
         </div>
       )}
 
+      {/* Title */}
       <div>
-        <label className="block text-sm font-medium text-white">Title *</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Title <span className="text-red-500">*</span>
+        </label>
         <input
           value={title}
           onChange={e => setTitle(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-white/20 bg-black p-2 text-white"
+          placeholder="e.g. Finish dashboard UI"
+          className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 placeholder-gray-400
+                     focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
         />
       </div>
 
+      {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-white">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
           Description
         </label>
         <textarea
-          rows={3}
+          rows={4}
           value={description}
           onChange={e => setDescription(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-white/20 bg-black p-2 text-white"
+          placeholder="Optional details about this task…"
+          className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 placeholder-gray-400
+                     focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition resize-none"
         />
       </div>
 
-      <div className="flex justify-end space-x-3">
+      {/* Actions */}
+      <div className="flex justify-end space-x-3 pt-2">
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 text-sm text-[#a1a1aa] hover:bg-white/10 rounded"
+          className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 transition"
         >
           Cancel
         </button>
 
         <button
           type="submit"
-          className="px-4 py-2 text-sm bg-white text-black rounded"
+          className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 transition shadow"
         >
           {initialData ? 'Update Task' : 'Add Task'}
         </button>
